@@ -4,7 +4,7 @@ Web service to manage the CocoaPods State of the Union lottery.
 
 ## Environment
 
-SOTU expects the following environment variables configued:
+SOTU expects the following environment variables configured:
 
 - `DATABASE_URL`
 - `GITHUB_CLIENT_ID`
@@ -27,4 +27,12 @@ SOTU expects the following environment variables configued:
 4. Migrating the database:
 
         $ invoke migrate
+
+## Running the website
+
+You can use [foreman](https://github.com/ddollar/foreman) to run the server.
+
+```shell
+$ foreman start
+```
 
