@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% if avatar %}
-    <img src="{{ avatar }}" width=128 height=128 />
-  {% endif %}
+  <div class="entrant">
+    {% if avatar %}
+      <img src="{{ avatar }}" width=128 height=128 />
+    {% endif %}
 
-  <p>You've been entered into the lottery {{ entrant.name }}, we will let you know your status via Email.</p>
+    <p style="display: inline; margin-left: 25px;">You've been entered into the lottery {{ entrant.name }}, we will let you know your status via Email.</p>
+  </div>
 {% endblock %}
 
