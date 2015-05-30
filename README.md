@@ -2,6 +2,14 @@
 
 Web service to manage the CocoaPods State of the Union lottery.
 
+## Environment
+
+SOTU expects the following environment variables configued:
+
+- `DATABASE_URL`
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET`
+
 ## Setup
 
 1. Create a virtual environment:
