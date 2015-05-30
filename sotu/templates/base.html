@@ -20,6 +20,32 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="description">
   <meta content="" name="author">
+
+  <style>
+    .headline {
+      height: 120px;
+    }
+    h2 {
+      color: #ff0000;
+    }
+
+    iframe {
+      float: right;
+    }
+
+    .button {
+      color: white;
+      border-radius: 4px;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+      padding: 8px;
+      background: rgb(28, 184, 65);
+    }
+
+    .button:hover {
+      color: white;
+      background: rgb(28, 144, 65);
+    }
+  </style>
 </head>
 
 <body>
@@ -56,6 +82,7 @@
     <section class="container">
       <div class="row">
         <header class="col-md-12 headline index">
+          <h2>State of the Union 2015</h2>
         </header>
       </div>
     </section>
@@ -65,7 +92,7 @@
   <div id="content-wrapper">
     <section class="container">
       <div class="row">
-        <article class="col-md-12" id="trunk-content">
+        <article class="col-md-12">
           {% block content %}{% endblock %}
         </article>
       </div>

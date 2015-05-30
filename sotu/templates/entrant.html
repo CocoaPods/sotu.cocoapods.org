@@ -2,9 +2,9 @@
 
 {% block content %}
   {% if avatar %}
-    <img src="{{ avatar }}" />
+    <img src="{{ avatar }}" width=128 height=128 />
   {% endif %}
 
-  <p>You've been entered into the lottery {{ entrant.name }}.</p>
+  <p>You've been entered into the lottery {{ entrant.name }}, we will let you know your status via Email.</p>
 {% endblock %}
 
