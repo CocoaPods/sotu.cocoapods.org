@@ -4,6 +4,7 @@ import requests
 import peewee
 
 from rivr import Router, MiddlewareController, DebugMiddleware, Response
+from rivr.http import ResponseRedirect
 from rivr.wsgi import WSGIHandler
 from rivr_jinja import *
 from jinja2 import Environment, PackageLoader
@@ -51,7 +52,7 @@ def retrieve_access_token(code):
         'Accept': 'application/json',
     }
     response = requests.post('https://github.com/login/oauth/access_token?' + urllib.urlencode(parameters), headers=headers)
-    return response.json()['access_token']
+    return response.json().get('access_token')
 
 
 def retrieve_account(access_token):
@@ -61,6 +62,8 @@ def retrieve_account(access_token):
 def callback(request):
     code = request.GET['code']
     access_token = retrieve_access_token(code)
+    if not access_token:
+        return ResponseRedirect('https://sotu.cocoapods.org/')
     user = retrieve_account(access_token)
     email = user['email']
     username = user['login']
