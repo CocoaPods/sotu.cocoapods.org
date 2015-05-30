@@ -1,9 +1,7 @@
-<html>
-    <head>
-    </head>
+{% extends "base.html" %}
 
-    <body>
-        <h1>CocoaPods: State of the Union</h1>
+{% block content %}
+<h1>CocoaPods: State of the Union</h1>
 
         <h2>When</h2>
         <p>6:30pm on June 8th, 2015.</p>
@@ -12,6 +10,5 @@
         <p>Twillio, 645 Harrison Street, Third Floor | San Francisco, CA 94107</p>
 
         <a href="{{ github_authorize_uri }}">RSVP with GitHub</a>
-    </body>
-</html>
+{% endblock %}
 
