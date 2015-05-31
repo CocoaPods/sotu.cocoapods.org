@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <script src='https://static.citymapper.com/js/embed/widget.js' data-slug='6jm7vo' data-width=300 ></script>
+<div class="row">
+  <div class="col-md-8">
+    <p>2015 has been a big year for CocoaPods, come join us at our State of the Union.</p>
 
-  <p>2015 has been a big year for CocoaPods, come join us at our state of the union.</p>
+    <p>This year we're using a lottery system and you can register via GitHub.</p>
 
-  <p>This year we're using a lottery system and you can register into our lottery via GitHub.</p>
+    <a class="button" href="{{ github_authorize_uri }}">Register with GitHub</a>
 
-  <a class="button" href="{{ github_authorize_uri }}">Register with GitHub</a>
+    <h2>When</h2>
+    <p>6:30pm on June 8th, 2015</p>
 
-  <h2>When</h2>
-  <p>6:30pm on June 8th, 2015.</p>
-
-  <h2>Where</h2>
-  <p><a href="https://citymapper.com/go/6jm7vo">Twillio, 645 Harrison Street, Third Floor | San Francisco, CA 94107</a></p>
+    <h2>Where</h2>
+    <p><a href="https://citymapper.com/go/6jm7vo">Twillio, 645 Harrison Street, Third Floor | San Francisco, CA 94107</a></p>
+  </div>
+  <div class="citymapper col-md-4"><script src='https://static.citymapper.com/js/embed/widget.js' data-slug='6jm7vo' data-width=300 ></script></div>
+</div>
 {% endblock %}
-
