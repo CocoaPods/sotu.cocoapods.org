@@ -72,7 +72,7 @@ def callback(request):
     user = retrieve_account(access_token)
     email = retrieve_email(access_token)
     username = user['login']
-    name = user['name']
+    name = user.get('name', username)
     avatar = user['avatar_url']
 
     try:
