@@ -38,3 +38,9 @@ You can use [foreman](https://github.com/ddollar/foreman) to run the server.
 $ foreman start
 ```
 
+## Running the tests
+
+```shell
+$ invoke test
+```
+
