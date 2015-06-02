@@ -61,7 +61,7 @@ def retrieve_account(access_token):
 def retrieve_email(access_token):
     emails = requests.get('https://api.github.com/user/emails?' + urllib.urlencode({'access_token': access_token})).json()
     primaries = (e for e in emails if e['primary'] is True)
-    return primaries[0]['email']
+    return primaries.get()['email']
 
 
 def callback(request):
