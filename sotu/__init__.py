@@ -5,10 +5,22 @@ from rivr.wsgi import WSGIHandler
 from sotu.middleware import middleware
 
 
+SLACK_TOKEN = os.environ.get('SLACK_TOKEN')
+SLACK_CHANNEL = os.environ.get('SLACK_CHANNEL')
+
 logger = logging.getLogger('rivr.request')
 console = logging.StreamHandler()
 console.setLevel(logging.ERROR)
 logger.addHandler(console)
+
+
+if SLACK_TOKEN and SLACK_CHANNEL:
+    from pyslack import SlackHandler
+    handler = SlackHandler(SLACK_TOKEN, SLACK_CHANNEL, username='SOTU')
+    formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(name)s (%(process)d): %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
 
 if os.environ.get('SENDGRID_USERNAME'):
     from logging.handlers import SMTPHandler

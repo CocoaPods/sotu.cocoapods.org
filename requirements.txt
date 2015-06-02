@@ -4,6 +4,7 @@ gunicorn==19.3.0
 invoke==0.10.1
 peewee==2.6.1
 psycopg2==2.6
+-e git+https://github.com/loisaidasam/pyslack@8a6397b7911e8e82d0fbbccc7ae0c6190b32f2f4#egg=pyslack-master
 requests==2.7.0
 rivr==0.6.0
 rivr-jinja==0.1.1
