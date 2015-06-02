@@ -1,5 +1,5 @@
 from rivr.http import ResponseRedirect
-from rivr_jinja import JinjaView
+from rivr_jinja import JinjaView, JinjaResponse
 
 from sotu.github import *
 from sotu.models import Entrant
@@ -32,7 +32,13 @@ class EntrantView(JinjaView):
 
 
 def callback(request):
-    code = request.GET['code']
+    code = request.GET.get('code')
+    if not code:
+        error = request.GET['error']
+        error_description = request.GET['error_description']
+        return JinjaResponse(request, template_names=['error.html'],
+                context={'reason': error_description})
+
     access_token = retrieve_access_token(code)
     if not access_token:
         return ResponseRedirect('https://sotu.cocoapods.org/')
