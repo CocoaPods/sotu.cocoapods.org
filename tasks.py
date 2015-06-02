@@ -1,8 +1,15 @@
+from rivr import serve
+from invoke import task, run
 from sotu.models import Entrant
-from invoke import task
+from sotu.middleware import middleware
 
 
 @task
 def migrate():
     Entrant.create_table()
+
+
+@task
+def test():
+    run('python -m unittest discover')
 
