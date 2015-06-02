@@ -71,7 +71,7 @@ def callback(request):
     avatar = user['avatar_url']
 
     try:
-        entrant = Entrant.select().where(Entrant.email == email).get()
+        entrant = Entrant.select().where(Entrant.github_username == username).get()
     except Entrant.DoesNotExist:
         entrant = Entrant.create(github_username=username, name=name, email=email)
 
