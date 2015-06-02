@@ -9,5 +9,8 @@ dependencies:
     - npm install -g api-mock
 
 test:
+  pre:
+    - "api-mock github.apib --port 5959":
+        background: true
   override:
     - invoke test
