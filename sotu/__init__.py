@@ -58,6 +58,11 @@ def retrieve_access_token(code):
 def retrieve_account(access_token):
     return requests.get('https://api.github.com/user?' + urllib.urlencode({'access_token': access_token})).json()
 
+def retrieve_email(access_token):
+    emails = requests.get('https://api.github.com/user/emails?' + urllib.urlencode({'access_token': access_token})).json()
+    primaries = (e for e in emails if e['primary'] is True)
+    return primaries[0]['email']
+
 
 def callback(request):
     code = request.GET['code']
@@ -65,7 +70,7 @@ def callback(request):
     if not access_token:
         return ResponseRedirect('https://sotu.cocoapods.org/')
     user = retrieve_account(access_token)
-    email = user['email']
+    email = retrieve_email(access_token)
     username = user['login']
     name = user['name']
     avatar = user['avatar_url']
@@ -91,4 +96,3 @@ middleware = MiddlewareController.wrap(router,
     JinjaMiddleware(env),
 )
 wsgi = WSGIHandler(middleware)
-

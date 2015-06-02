@@ -9,4 +9,3 @@ class Entrant(database.Model):
     github_username = peewee.CharField(unique=True)
     name = peewee.CharField()
     email = peewee.CharField(unique=True)
-
