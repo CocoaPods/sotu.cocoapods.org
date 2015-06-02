@@ -40,6 +40,14 @@ $ foreman start
 
 ## Running the tests
 
+Firstly, run a mock GitHub API:
+
+```shell
+$ api-mock github.apib --port 5959
+```
+
+Then run the tests:
+
 ```shell
 $ invoke test
 ```
