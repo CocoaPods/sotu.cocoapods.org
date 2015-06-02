@@ -1,4 +1,4 @@
-from rivr import DebugMiddleware, Router, MiddlewareController, DebugMiddleware, Response
+from rivr import Router, MiddlewareController, Response
 from rivr_jinja import JinjaMiddleware
 from jinja2 import Environment, PackageLoader
 
@@ -14,7 +14,6 @@ router = Router(
 
 env = Environment(loader=PackageLoader('sotu', 'templates'))
 middleware = MiddlewareController.wrap(router,
-    DebugMiddleware(),
     database,
     JinjaMiddleware(env),
 )
