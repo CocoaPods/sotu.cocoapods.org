@@ -1,5 +1,7 @@
 # CocoaPods State of the Union
 
+[![Circle CI Status](https://img.shields.io/circleci/project/CocoaPods/sotu.cocoapods.org.svg)](https://circleci.com/gh/CocoaPods/sotu.cocoapods.org/tree/master)
+
 Web service to manage the CocoaPods State of the Union lottery.
 
 ## Environment
