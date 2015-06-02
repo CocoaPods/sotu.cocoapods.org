@@ -1,5 +1,7 @@
 # CocoaPods State of the Union
 
+[![Circle CI Status](https://img.shields.io/circleci/project/CocoaPods/sotu.cocoapods.org.svg)](https://circleci.com/gh/CocoaPods/sotu.cocoapods.org/tree/master)
+
 Web service to manage the CocoaPods State of the Union lottery.
 
 ## Environment
@@ -34,5 +36,19 @@ You can use [foreman](https://github.com/ddollar/foreman) to run the server.
 
 ```shell
 $ foreman start
+```
+
+## Running the tests
+
+Firstly, run a mock GitHub API:
+
+```shell
+$ api-mock github.apib --port 5959
+```
+
+Then run the tests:
+
+```shell
+$ invoke test
 ```
 
