@@ -34,10 +34,10 @@ class EntrantView(JinjaView):
 def callback(request):
     code = request.GET.get('code')
     if not code:
-        error = request.GET['error']
-        error_description = request.GET['error_description']
+        error = request.GET.get('error')
+        error_description = request.GET.get('error_description', 'Unknown Error, please try again')
         return JinjaResponse(request, template_names=['error.html'],
-                context={'reason': error_description})
+                context={'reason': '{} ({})'.format(error_description, error)})
 
     access_token = retrieve_access_token(code)
     if not access_token:
