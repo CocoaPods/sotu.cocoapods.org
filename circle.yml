@@ -4,7 +4,10 @@ machine:
     GITHUB_CLIENT_ID: test_github_id
     GITHUB_CLIENT_SECRET: test_github_secret
 
+dependencies:
+  post:
+    - npm install -g api-mock
+
 test:
   override:
-    - invoke migrate
     - invoke test

@@ -1,0 +1,43 @@
+FORMAT: 1A
+HOST http://api.github.com/
+
+# GitHub API
+
+## Access Token Resource [/login/oauth/access_token]
+### Retrieve an access token [POST]
+
++ Response 200 (application/json)
+
+        {
+            "access_token": "test_token"
+        }
+
+## User [/user{?access_token}]
+
++ Parameters
+    + access_token
+
+### Retrieve the user profile [GET]
+
++ Response 200 (application/json)
+
+        {
+            "login": "kylef"
+        }
+
+## Email [/user/emails{?access_token}]
+
++ Parameters
+    + access_token
+
+### Retrieve the users email addresses [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "email": "kyle@cocoapods.org",
+                "primary": true,
+                "verified": true
+            }
+        ]

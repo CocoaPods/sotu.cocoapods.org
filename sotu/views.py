@@ -40,7 +40,7 @@ def callback(request):
     email = retrieve_email(access_token)
     username = user['login']
     name = user.get('name', username)
-    avatar = user['avatar_url']
+    avatar = user.get('avatar_url', None)
 
     try:
         entrant = Entrant.select().where(Entrant.github_username == username).get()
