@@ -24,11 +24,11 @@ def retrieve_access_token(code):
 
 
 def retrieve_account(access_token):
-    return requests.get(GITHUB_BASE_URI + '/user?' + urllib.urlencode({'access_token': access_token})).json()
+    return requests.get(GITHUB_API_BASE_URI + '/user?' + urllib.urlencode({'access_token': access_token})).json()
 
 
 def retrieve_email(access_token):
-    emails = requests.get(GITHUB_BASE_URI + '/user/emails?' + urllib.urlencode({'access_token': access_token})).json()
+    emails = requests.get(GITHUB_API_BASE_URI + '/user/emails?' + urllib.urlencode({'access_token': access_token})).json()
     primary = next(e for e in emails if e['primary'] is True)
     return primary['email']
 
