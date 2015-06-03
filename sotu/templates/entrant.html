@@ -2,14 +2,16 @@
 
 {% block content %}
   <div class="entrant row">
+    <div class="col-md-2"></div>
+
+    <div class="col-md-6">
+      <p>You've been entered into the lottery, {{ entrant.name }}, we will let you know your status via email.</p>
+    </div>
+    
     {% if avatar %}
-      <div class="col-md-4">
-        <img src="{{ avatar }}" width=128 height=128 />
+      <div class="col-md-2">
+        <img src="{{ avatar }}" />
       </div>
     {% endif %}
-
-    <div class="col-md-8">
-      <p style="display: inline; margin-left: 25px;">You've been entered into the lottery, {{ entrant.name }}, we will let you know your status via email.</p>
-    </div>
   </div>
 {% endblock %}
