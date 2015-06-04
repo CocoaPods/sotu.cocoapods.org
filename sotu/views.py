@@ -33,7 +33,8 @@ class EntrantView(JinjaView):
 
 
 class InvitationView(JinjaView):
-    expected_states = []
+    template_name = 'invited.html'
+    expected_states = (Invitation.INVITED_STATE,)
 
     def get_context_data(self, **kwargs):
         return {
@@ -102,6 +103,19 @@ def callback(request):
         entrant = Entrant.select().where(Entrant.github_username == username).get()
     except Entrant.DoesNotExist:
         entrant = Entrant.create(github_username=username, name=name, email=email)
+
+    try:
+        invitation = entrant.invitation_set.get()
+    except Invitation.DoesNotExist:
+        invitation = None
+
+    if invitation:
+        if invitation.state == Invitation.ACCEPTED_STATE:
+            return ResponseRedirect(invitation.accept_url)
+        elif invitation.state == Invitation.REJECTED_STATE:
+            return ResponseRedirect(invitation.reject_url)
+        elif invitation.state == Invitation.INVITED_STATE:
+            return ResponseRedirect(invitation.invited_url)
 
     return EntrantView.as_view(entrant=entrant, avatar=avatar)(request)
 

@@ -51,6 +51,10 @@ class Invitation(database.Model):
     def accept_url(self):
         return 'https://sotu.cocoapods.org/invitation/{}/accept'.format(self.code)
 
+    @property
+    def invited_url(self):
+        return 'https://sotu.cocoapods.org/invitation/{}'.format(self.code)
+
     def accept(self):
         self.state = self.ACCEPTED_STATE
 
