@@ -1,5 +1,6 @@
 import os
 from tempfile import NamedTemporaryFile
+import peewee
 from rivr import serve
 from invoke import task, run
 from sotu.models import Entrant, Invitation
@@ -55,4 +56,19 @@ def invite(username, force=False):
         invitation = entrant.invite()
 
     send_invitation(invitation)
+
+
+@task
+def lottery(amount):
+    amount = int(amount)
+
+    entrants = Entrant.select().order_by(peewee.fn.Random())
+    entrants = filter(lambda e: e.invitation_set.count() == 0, entrants)[:amount]
+
+    print('Inviting {} entrants.'.format(len(entrants)))
+
+    for entrant in entrants:
+        print(entrant.github_username)
+        entrant.invite()
+        send_invitation(invitation)
 
