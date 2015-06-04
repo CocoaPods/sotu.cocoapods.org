@@ -41,7 +41,7 @@ class Invitation(database.Model):
 
     @property
     def email(self):
-        return '{} <{}>'.format(self.entrant.name, self.entrant.email)
+        return '{} <{}>'.format(self.entrant.name.encode('ascii', 'ignore'), self.entrant.email)
 
     @property
     def reject_url(self):

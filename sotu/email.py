@@ -19,7 +19,7 @@ def send_email(invitation, subject, body_text):
 
 
 def send_invitation(invitation):
-    text = """Hi {name},
+    text = u"""Hi {name},
 
 You've been invited to the CocoaPods State of the Union.
 
