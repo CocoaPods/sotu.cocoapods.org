@@ -25,6 +25,18 @@ def test():
 
 
 @task
+def status():
+    entrants = Entrant.select().count()
+    invited = Invitation.select().where(Invitation.state == Invitation.INVITED_STATE).count()
+    accepted = Invitation.select().where(Invitation.state == Invitation.ACCEPTED_STATE).count()
+    rejected = Invitation.select().where(Invitation.state == Invitation.REJECTED_STATE).count()
+    print('Entrants: {}\n---'.format(entrants))
+    print('Invited: {}'.format(invited))
+    print('Accepted: {}'.format(accepted))
+    print('Entrants: {}'.format(rejected))
+
+
+@task
 def invite(username):
     try:
         entrant = Entrant.select().where(Entrant.github_username == username).get()
