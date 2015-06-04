@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="entrant row">
+    <p>See you there {{ entrant.name }}!</p>
+
+    <a class="button" href="/event.ics">Add to Calendar</a>
+    <p>
+        <a href="https://citymapper.com/go/6jm7vo">
+            Twilio, 645 Harrison Street, Third Floor | San Francisco, CA 94107
+        </a>
+        at <a href="/event.ics">6:15pm on Monday</a>
+    </p>
+
+    <p>If you can't make it, please change your RSVP status by clicking <a href="{{ invitation.reject_url }}">here</a>.</p>
+  </div>
+{% endblock %}
+

@@ -1,8 +1,9 @@
+from rivr import Http404
 from rivr.http import ResponseRedirect
 from rivr_jinja import JinjaView, JinjaResponse
 
 from sotu.github import *
-from sotu.models import Entrant
+from sotu.models import Entrant, Invitation
 
 
 class IndexView(JinjaView):
@@ -29,6 +30,51 @@ class EntrantView(JinjaView):
             'entrant': self.entrant,
             'avatar': self.avatar,
         }
+
+
+class InvitationView(JinjaView):
+    expected_states = []
+
+    def get_context_data(self, **kwargs):
+        return {
+            'invitation': self.invitation,
+            'entrant': self.invitation.entrant,
+        }
+
+    def perform(self, invitation):
+        pass
+
+    def get(self, *args, **kwargs):
+        try:
+            self.invitation = Invitation.select().where(Invitation.code == kwargs['code']).get()
+        except Invitation.DoesNotExist:
+            raise Http404
+
+        if self.invitation.state not in self.expected_states:
+            raise Http404
+
+        self.perform(self.invitation)
+        return super(InvitationView, self).get(*args, **kwargs)
+
+
+class AcceptView(InvitationView):
+    template_name = 'accepted.html'
+    expected_states = (Invitation.INVITED_STATE, Invitation.ACCEPTED_STATE)
+
+    def perform(self, invitation):
+        if invitation.state != Invitation.ACCEPTED_STATE:
+            invitation.accept()
+            invitation.save()
+
+
+class RejectView(InvitationView):
+    template_name = 'rejected.html'
+    expected_states = (Invitation.INVITED_STATE, Invitation.ACCEPTED_STATE, Invitation.REJECTED_STATE)
+
+    def perform(self, invitation):
+        if invitation.state != Invitation.REJECTED_STATE:
+            invitation.reject()
+            invitation.save()
 
 
 def callback(request):
