@@ -2,13 +2,15 @@ import os
 from tempfile import NamedTemporaryFile
 from rivr import serve
 from invoke import task, run
-from sotu.models import Entrant
+from sotu.models import Entrant, Invitation
 from sotu.middleware import middleware
+from sotu.email import send_invitation
 
 
 @task
 def migrate():
     Entrant.create_table()
+    Invitation.create_table()
 
 
 @task
@@ -21,4 +23,36 @@ def test():
         os.environ['GITHUB_API_BASE_URI'] = 'http://localhost:5959'
         run('invoke migrate')
         run('python -m unittest discover')
+
+
+@task
+def status():
+    entrants = Entrant.select().count()
+    invited = Invitation.select().where(Invitation.state == Invitation.INVITED_STATE).count()
+    accepted = Invitation.select().where(Invitation.state == Invitation.ACCEPTED_STATE).count()
+    rejected = Invitation.select().where(Invitation.state == Invitation.REJECTED_STATE).count()
+    print('Entrants: {}\n---'.format(entrants))
+    print('Invited: {}'.format(invited))
+    print('Accepted: {}'.format(accepted))
+    print('Entrants: {}'.format(rejected))
+
+
+@task
+def invite(username, force=False):
+    try:
+        entrant = Entrant.select().where(Entrant.github_username == username).get()
+    except Entrant.DoesNotExist:
+        print('Username {} does not exist.'.format(username))
+        return
+
+    if entrant.invitation_set.exists() and not force:
+        print('{} already has an invitation.'.format(username))
+        return
+
+    if force:
+        invitation = entrant.invitation_set.get()
+    else:
+        invitation = entrant.invite()
+
+    send_invitation(invitation)
 

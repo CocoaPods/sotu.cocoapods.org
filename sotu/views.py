@@ -1,8 +1,9 @@
+from rivr import Http404
 from rivr.http import ResponseRedirect
 from rivr_jinja import JinjaView, JinjaResponse
 
 from sotu.github import *
-from sotu.models import Entrant
+from sotu.models import Entrant, Invitation
 
 
 class IndexView(JinjaView):
@@ -31,6 +32,52 @@ class EntrantView(JinjaView):
         }
 
 
+class InvitationView(JinjaView):
+    template_name = 'invited.html'
+    expected_states = (Invitation.INVITED_STATE,)
+
+    def get_context_data(self, **kwargs):
+        return {
+            'invitation': self.invitation,
+            'entrant': self.invitation.entrant,
+        }
+
+    def perform(self, invitation):
+        pass
+
+    def get(self, *args, **kwargs):
+        try:
+            self.invitation = Invitation.select().where(Invitation.code == kwargs['code']).get()
+        except Invitation.DoesNotExist:
+            raise Http404
+
+        if self.invitation.state not in self.expected_states:
+            raise Http404
+
+        self.perform(self.invitation)
+        return super(InvitationView, self).get(*args, **kwargs)
+
+
+class AcceptView(InvitationView):
+    template_name = 'accepted.html'
+    expected_states = (Invitation.INVITED_STATE, Invitation.ACCEPTED_STATE)
+
+    def perform(self, invitation):
+        if invitation.state != Invitation.ACCEPTED_STATE:
+            invitation.accept()
+            invitation.save()
+
+
+class RejectView(InvitationView):
+    template_name = 'rejected.html'
+    expected_states = (Invitation.INVITED_STATE, Invitation.ACCEPTED_STATE, Invitation.REJECTED_STATE)
+
+    def perform(self, invitation):
+        if invitation.state != Invitation.REJECTED_STATE:
+            invitation.reject()
+            invitation.save()
+
+
 def callback(request):
     code = request.GET.get('code')
     if not code:
@@ -56,6 +103,19 @@ def callback(request):
         entrant = Entrant.select().where(Entrant.github_username == username).get()
     except Entrant.DoesNotExist:
         entrant = Entrant.create(github_username=username, name=name, email=email)
+
+    try:
+        invitation = entrant.invitation_set.get()
+    except Invitation.DoesNotExist:
+        invitation = None
+
+    if invitation:
+        if invitation.state == Invitation.ACCEPTED_STATE:
+            return ResponseRedirect(invitation.accept_url)
+        elif invitation.state == Invitation.REJECTED_STATE:
+            return ResponseRedirect(invitation.reject_url)
+        elif invitation.state == Invitation.INVITED_STATE:
+            return ResponseRedirect(invitation.invited_url)
 
     return EntrantView.as_view(entrant=entrant, avatar=avatar)(request)
 

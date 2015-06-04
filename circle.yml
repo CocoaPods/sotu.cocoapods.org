@@ -3,6 +3,8 @@ machine:
     DATABASE_URL: postgres://ubuntu:@127.0.0.1:5432/circle_test
     GITHUB_CLIENT_ID: test_github_id
     GITHUB_CLIENT_SECRET: test_github_secret
+    SENDGRID_USERNAME: test_sendgrid_username
+    SENDGRID_PASSWORD: test_sendgrid_password
 
 dependencies:
   post:
