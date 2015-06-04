@@ -4,6 +4,7 @@ from rivr import serve
 from invoke import task, run
 from sotu.models import Entrant, Invitation
 from sotu.middleware import middleware
+from sotu.email import send_invitation
 
 
 @task
@@ -37,15 +38,21 @@ def status():
 
 
 @task
-def invite(username):
+def invite(username, force=False):
     try:
         entrant = Entrant.select().where(Entrant.github_username == username).get()
     except Entrant.DoesNotExist:
         print('Username {} does not exist.'.format(username))
         return
 
-    if entrant.invitation_set.exists():
+    if entrant.invitation_set.exists() and not force:
         print('{} already has an invitation.'.format(username))
+        return
 
-    entrant.invite()
+    if force:
+        invitation = entrant.invitation_set.get()
+    else:
+        invitation = entrant.invite()
+
+    send_invitation(invitation)
 
