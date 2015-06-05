@@ -1,5 +1,7 @@
+import json
+
 from rivr import Http404
-from rivr.http import ResponseRedirect
+from rivr.http import Response, ResponseRedirect
 from rivr_jinja import JinjaView, JinjaResponse
 
 from sotu.github import *
@@ -122,3 +124,12 @@ def callback(request):
 
     return EntrantView.as_view(entrant=entrant, avatar=avatar)(request)
 
+
+def status_view(request):
+    status = {
+        'entrants': Entrant.select().count(),
+        'invited': Invitation.select().where(Invitation.state == Invitation.INVITED_STATE).count(),
+        'accepted': Invitation.select().where(Invitation.state == Invitation.ACCEPTED_STATE).count(),
+        'rejected': Invitation.select().where(Invitation.state == Invitation.REJECTED_STATE).count(),
+    }
+    return Response(json.dumps(status), content_type='application/json')

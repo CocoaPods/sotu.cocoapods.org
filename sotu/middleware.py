@@ -4,7 +4,7 @@ from rivr_jinja import JinjaMiddleware, JinjaView
 from jinja2 import Environment, PackageLoader
 
 from sotu.models import database
-from sotu.views import IndexView, InvitationView, AcceptView, RejectView, callback
+from sotu.views import IndexView, InvitationView, AcceptView, RejectView, callback, status_view
 
 
 router = Router(
@@ -14,6 +14,7 @@ router = Router(
     (r'^invitation/(?P<code>[\w\d]+)/reject$', RejectView.as_view()),
     (r'^invitation/(?P<code>[\w\d]+)$', InvitationView.as_view()),
     (r'^removed$', JinjaView.as_view(template_name='removed.html')),
+    (r'^status$', status_view),
     (r'^(?P<path>.*)$', StaticView.as_view(document_root='sotu/static')),
 )
 

@@ -35,7 +35,7 @@ def status():
     print('Entrants: {}\n---'.format(entrants))
     print('Invited: {}'.format(invited))
     print('Accepted: {}'.format(accepted))
-    print('Entrants: {}'.format(rejected))
+    print('Rejected: {}'.format(rejected))
 
 
 @task
