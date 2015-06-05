@@ -61,10 +61,7 @@ def invite(username, force=False):
 @task
 def lottery(amount):
     amount = int(amount)
-
-    entrants = Entrant.select().order_by(peewee.fn.Random())
-    entrants = filter(lambda e: e.invitation_set.count() == 0, entrants)[:amount]
-
+    entrants = Entrant.select().order_by(peewee.fn.Random()).join(Invitation, JOIN.LEFT_OUTER).group_by(Entrant).having(fn.COUNT(Invitation.id) == 0).limit(amount)
     print('Inviting {} entrants.'.format(len(entrants)))
 
     for entrant in entrants:
