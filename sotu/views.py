@@ -54,6 +54,9 @@ class InvitationView(JinjaView):
         if self.invitation.state not in self.expected_states:
             raise Http404
 
+        if self.invitation.state == Invitation.REMOVED_STATE:
+            return ResponseRedirect('https://sotu.cocoapods.org/removed')
+
         self.perform(self.invitation)
         return super(InvitationView, self).get(*args, **kwargs)
 

@@ -27,12 +27,14 @@ class Invitation(database.Model):
     ACCEPTED_STATE = 'accepted'  # The user accepted the invitation
     REJECTED_STATE = 'rejected'  # The user has rejected the invitation
     ATTENDED_STATE = 'attended'  # The user has checked-in at the event
+    REMOVED_STATE = 'removed'  # Their invite has been removed
 
     STATES = (
         (INVITED_STATE, 'Invited',),
         (ACCEPTED_STATE, 'Accepted',),
         (REJECTED_STATE, 'Rejected',),
         (ATTENDED_STATE, 'Attended',),
+        (REMOVED_STATE, 'Removed',),
     )
 
     code = peewee.CharField(unique=True)
