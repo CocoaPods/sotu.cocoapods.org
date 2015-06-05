@@ -69,6 +69,6 @@ def lottery(amount):
 
     for entrant in entrants:
         print(entrant.github_username)
-        entrant.invite()
+        invitation = entrant.invite()
         send_invitation(invitation)
 
