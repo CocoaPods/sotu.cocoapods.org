@@ -8,6 +8,9 @@ from sotu.github import *
 from sotu.models import Entrant, Invitation
 
 
+ATTENDEE_LIMIT = 150
+
+
 class IndexView(JinjaView):
     template_name = 'index.html'
 
@@ -37,6 +40,12 @@ class EntrantView(JinjaView):
 class InvitationView(JinjaView):
     template_name = 'invited.html'
     expected_states = (Invitation.INVITED_STATE,)
+    enforce_attendee_limit = True
+
+    @property
+    def has_reached_limit(self):
+        attendees = Invitation.select().where(Invitation.state == Invitation.ACCEPTED_STATE).count()
+        return attendees >= ATTENDEE_LIMIT
 
     def get_context_data(self, **kwargs):
         return {
@@ -59,6 +68,9 @@ class InvitationView(JinjaView):
         if self.invitation.state == Invitation.REMOVED_STATE:
             return ResponseRedirect('https://sotu.cocoapods.org/removed')
 
+        if self.enforce_attendee_limit and self.has_reached_limit:
+            return ResponseRedirect('https://sotu.cocoapods.org/cap')
+
         self.perform(self.invitation)
         return super(InvitationView, self).get(*args, **kwargs)
 
@@ -76,6 +88,7 @@ class AcceptView(InvitationView):
 class RejectView(InvitationView):
     template_name = 'rejected.html'
     expected_states = (Invitation.INVITED_STATE, Invitation.ACCEPTED_STATE, Invitation.REJECTED_STATE)
+    enforce_attendee_limit = False
 
     def perform(self, invitation):
         if invitation.state != Invitation.REJECTED_STATE:

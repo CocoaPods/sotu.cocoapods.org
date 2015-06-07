@@ -118,3 +118,26 @@ class AcceptInvitationTests(InvitationTests):
         with self.assertRaises(Http404):
             self.client.get(self.path + '/accept')
 
+    def test_cant_accept_invite_with_max_attendees(self):
+        def create_entrant(number):
+            return Entrant.create(email='kyle_{}@cocoapods.org'.format(number),
+                    name='Kyle', github_username='kylef_{}'.format(number))
+
+        def accept_entrant(entrant):
+            invitation = entrant.invite()
+            invitation.state = Invitation.ACCEPTED_STATE
+            invitation.save()
+            return invitation
+
+        entrants = map(create_entrant, range(0, 150))
+        invitations = map(accept_entrant, entrants)
+
+        response = self.client.get(self.path + '/accept')
+        self.assertEqual(response.status_code, 302)
+
+        for invitation in invitations:
+            invitation.delete_instance()
+
+        for entrant in entrants:
+            entrant.delete_instance()
+

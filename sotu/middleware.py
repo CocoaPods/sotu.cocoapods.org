@@ -14,6 +14,7 @@ router = Router(
     (r'^invitation/(?P<code>[\w\d]+)/reject$', RejectView.as_view()),
     (r'^invitation/(?P<code>[\w\d]+)$', InvitationView.as_view()),
     (r'^removed$', JinjaView.as_view(template_name='removed.html')),
+    (r'^cap$', JinjaView.as_view(template_name='cap.html')),
     (r'^status$', status_view),
     (r'^(?P<path>.*)$', StaticView.as_view(document_root='sotu/static')),
 )
