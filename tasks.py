@@ -80,7 +80,7 @@ def remind():
     invitations = Invitation.select().where(Invitation.state == Invitation.INVITED_STATE)
 
     for invitation in invitations:
-        send_reminder(invitations)
+        send_reminder(invitation)
 
 
 @task
