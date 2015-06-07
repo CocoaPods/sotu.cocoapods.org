@@ -5,7 +5,7 @@ from rivr import serve
 from invoke import task, run
 from sotu.models import Entrant, Invitation
 from sotu.middleware import middleware
-from sotu.email import send_invitation, send_reminder
+from sotu.email import send_invitation, send_reminder, send_remaining_invite
 
 
 @task
@@ -81,3 +81,13 @@ def remind():
 
     for invitation in invitations:
         send_reminder(invitations)
+
+
+@task
+def invite_remaining():
+    entrants = Entrant.select().order_by(peewee.fn.Random()).join(Invitation, JOIN.LEFT_OUTER).group_by(Entrant).having(fn.COUNT(Invitation.id) == 0)
+
+    for entrant in entrants:
+        print(entrant.github_username)
+        invitation = entrant.invite()
+        send_remaining_invite(invitation)

@@ -62,3 +62,20 @@ Regards,
 The CocoaPods Team
 """.format(name=invitation.entrant.name, accept_url=invitation.accept_url, reject_url=invitation.reject_url)
     send_email(invitation, 'CocoaPods State of the Union Invitation', text)
+
+
+def send_remaining_invite(invitation):
+    text = u"""Hi {name},
+
+We have opened up some more room for the CocoaPods State of Union and you might
+be able to come.
+
+If you would to come to the State of the Union, please click the following link:
+
+    {accept_url}
+
+Regards,
+
+The CocoaPods Team
+""".format(name=invitation.entrant.name, accept_url=invitation.accept_url, reject_url=invitation.reject_url)
+    send_email(invitation, 'CocoaPods State of the Union Invitation', text)
