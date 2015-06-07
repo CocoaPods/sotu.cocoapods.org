@@ -38,3 +38,27 @@ The CocoaPods Team
 """.format(name=invitation.entrant.name, accept_url=invitation.accept_url, reject_url=invitation.reject_url)
     send_email(invitation, 'CocoaPods State of the Union Invitation', text)
 
+
+def send_reminder(invitation):
+    text = u"""Hi {name},
+
+We've noticed you haven't accepted or rejected your invitation to the CocoaPods
+State of the Union yet.
+
+This is a reminder to respond to your invitation soon. We will be giving away
+unresponded invitations to other entrants to give them a chance.
+
+You can accept this invitation by following this link:
+
+    {accept_url}
+
+If you cannot make it, please reject this invitation so we can invite another
+person.
+
+    {reject_url}
+
+Regards,
+
+The CocoaPods Team
+""".format(name=invitation.entrant.name, accept_url=invitation.accept_url, reject_url=invitation.reject_url)
+    send_email(invitation, 'CocoaPods State of the Union Invitation', text)

@@ -5,7 +5,7 @@ from rivr import serve
 from invoke import task, run
 from sotu.models import Entrant, Invitation
 from sotu.middleware import middleware
-from sotu.email import send_invitation
+from sotu.email import send_invitation, send_reminder
 
 
 @task
@@ -69,3 +69,15 @@ def lottery(amount):
         invitation = entrant.invite()
         send_invitation(invitation)
 
+
+@task
+def remind():
+    """
+    Sends out a reminder to all of the outstanding invitees who have not
+    yet accepted or rejected.
+    """
+
+    invitations = Invitation.select().where(Invitation.state == Invitation.INVITED_STATE)
+
+    for invitation in invitations:
+        send_reminder(invitations)
