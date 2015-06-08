@@ -8,7 +8,7 @@ from sotu.github import *
 from sotu.models import Entrant, Invitation
 
 
-ATTENDEE_LIMIT = 150
+ATTENDEE_LIMIT = 185
 
 
 class IndexView(JinjaView):
