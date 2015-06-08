@@ -129,7 +129,7 @@ class AcceptInvitationTests(InvitationTests):
             invitation.save()
             return invitation
 
-        entrants = map(create_entrant, range(0, 150))
+        entrants = map(create_entrant, range(0, 185))
         invitations = map(accept_entrant, entrants)
 
         response = self.client.get(self.path + '/accept')
@@ -140,4 +140,3 @@ class AcceptInvitationTests(InvitationTests):
 
         for entrant in entrants:
             entrant.delete_instance()
-
