@@ -68,7 +68,7 @@ class InvitationView(JinjaView):
         if self.invitation.state == Invitation.REMOVED_STATE:
             return ResponseRedirect('https://sotu.cocoapods.org/removed')
 
-        if self.enforce_attendee_limit and self.has_reached_limit and self.invitation.state is Invitation.INVITED_STATE:
+        if self.enforce_attendee_limit and self.has_reached_limit and self.invitation.state == Invitation.INVITED_STATE:
             return ResponseRedirect('https://sotu.cocoapods.org/cap')
 
         self.perform(self.invitation)

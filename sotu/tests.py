@@ -135,6 +135,11 @@ class AcceptInvitationTests(InvitationTests):
         response = self.client.get(self.path + '/accept')
         self.assertEqual(response.status_code, 302)
 
+        self.invitation.state = Invitation.ACCEPTED_STATE
+        self.invitation.save()
+        response = self.client.get(self.path + '/accept')
+        self.assertEqual(response.status_code, 200)
+
         for invitation in invitations:
             invitation.delete_instance()
 
