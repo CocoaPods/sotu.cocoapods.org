@@ -112,7 +112,7 @@ def callback(request):
     username = user['login']
 
     name = user.get('name', username)
-    if len(name) == 0:
+    if name is None or len(name) == 0:
         name = username
 
     avatar = user.get('avatar_url', None)
