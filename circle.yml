@@ -16,3 +16,4 @@ test:
         background: true
   override:
     - invoke test
+    - flake8 sotu

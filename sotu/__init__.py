@@ -42,4 +42,3 @@ Message:
 %(message)s"""))
 
 wsgi = WSGIHandler(middleware)
-

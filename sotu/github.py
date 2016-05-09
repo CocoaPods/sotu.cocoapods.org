@@ -19,7 +19,10 @@ def retrieve_access_token(code):
     headers = {
         'Accept': 'application/json',
     }
-    response = requests.post(GITHUB_BASE_URI + '/login/oauth/access_token?' + urllib.urlencode(parameters), headers=headers)
+    response = requests.post(
+        GITHUB_BASE_URI + '/login/oauth/access_token?' + urllib.urlencode(parameters),
+        headers=headers
+    )
     return response.json().get('access_token')
 
 
@@ -28,7 +31,7 @@ def retrieve_account(access_token):
 
 
 def retrieve_email(access_token):
-    emails = requests.get(GITHUB_API_BASE_URI + '/user/emails?' + urllib.urlencode({'access_token': access_token})).json()
+    url = GITHUB_API_BASE_URI + '/user/emails?' + urllib.urlencode({'access_token': access_token})
+    emails = requests.get(url).json()
     primary = next(e for e in emails if e['primary'] is True)
     return primary['email']
-

@@ -1,4 +1,4 @@
-from rivr import Router, MiddlewareController, Response
+from rivr import Router, MiddlewareController
 from rivr.views.static import StaticView
 from rivr_jinja import JinjaMiddleware, JinjaView
 from jinja2 import Environment, PackageLoader
@@ -21,8 +21,8 @@ router = Router(
 
 
 env = Environment(loader=PackageLoader('sotu', 'templates'))
-middleware = MiddlewareController.wrap(router,
+middleware = MiddlewareController.wrap(
+    router,
     database,
     JinjaMiddleware(env),
 )
-
