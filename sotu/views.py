@@ -5,7 +5,7 @@ from rivr import Http404
 from rivr.http import Response, ResponseRedirect
 from rivr_jinja import JinjaView, JinjaResponse
 
-import sotu.github as github
+from sotu import github
 from sotu.models import Entrant, Invitation
 
 
