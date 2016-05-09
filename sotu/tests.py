@@ -34,7 +34,10 @@ class GitHubCallbackTests(unittest.TestCase):
 
         response = self.client.get('/callback', {'code': 5})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers['Location'], 'https://sotu.cocoapods.org/invitation/{}'.format(invitation.code))
+        self.assertEqual(
+            response.headers['Location'],
+            'https://sotu.cocoapods.org/invitation/{}'.format(invitation.code)
+        )
 
         entrant.delete_instance()
         invitation.delete_instance()
@@ -47,7 +50,10 @@ class GitHubCallbackTests(unittest.TestCase):
 
         response = self.client.get('/callback', {'code': 5})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers['Location'], 'https://sotu.cocoapods.org/invitation/{}/reject'.format(invitation.code))
+        self.assertEqual(
+            response.headers['Location'],
+            'https://sotu.cocoapods.org/invitation/{}/reject'.format(invitation.code)
+        )
 
         entrant.delete_instance()
         invitation.delete_instance()
@@ -60,7 +66,10 @@ class GitHubCallbackTests(unittest.TestCase):
 
         response = self.client.get('/callback', {'code': 5})
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.headers['Location'], 'https://sotu.cocoapods.org/invitation/{}/accept'.format(invitation.code))
+        self.assertEqual(
+            response.headers['Location'],
+            'https://sotu.cocoapods.org/invitation/{}/accept'.format(invitation.code)
+        )
 
         entrant.delete_instance()
         invitation.delete_instance()
@@ -120,8 +129,10 @@ class AcceptInvitationTests(InvitationTests):
 
     def test_cant_accept_invite_with_max_attendees(self):
         def create_entrant(number):
-            return Entrant.create(email='kyle_{}@cocoapods.org'.format(number),
-                    name='Kyle', github_username='kylef_{}'.format(number))
+            return Entrant.create(
+                email='kyle_{}@cocoapods.org'.format(number),
+                name='Kyle', github_username='kylef_{}'.format(number)
+            )
 
         def accept_entrant(entrant):
             invitation = entrant.invite()

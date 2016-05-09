@@ -1,10 +1,11 @@
 import json
+import urllib
 
 from rivr import Http404
 from rivr.http import Response, ResponseRedirect
 from rivr_jinja import JinjaView, JinjaResponse
 
-from sotu.github import *
+import sotu.github as github
 from sotu.models import Entrant, Invitation
 
 
@@ -16,8 +17,8 @@ class IndexView(JinjaView):
 
     def get_context_data(self, **kwargs):
         parameters = {
-            'client_id': GITHUB_CLIENT_ID,
-            'redirect_uri': GITHUB_CALLBACK_URI,
+            'client_id': github.GITHUB_CLIENT_ID,
+            'redirect_uri': github.GITHUB_CALLBACK_URI,
             'scope': 'user:email',
             'state': 'unused',
         }
@@ -101,14 +102,17 @@ def callback(request):
     if not code:
         error = request.GET.get('error')
         error_description = request.GET.get('error_description', 'Unknown Error, please try again')
-        return JinjaResponse(request, template_names=['error.html'],
-                context={'reason': '{} ({})'.format(error_description, error)})
+        return JinjaResponse(
+            request,
+            template_names=['error.html'],
+            context={'reason': '{} ({})'.format(error_description, error)}
+        )
 
-    access_token = retrieve_access_token(code)
+    access_token = github.retrieve_access_token(code)
     if not access_token:
         return ResponseRedirect('https://sotu.cocoapods.org/')
-    user = retrieve_account(access_token)
-    email = retrieve_email(access_token)
+    user = github.retrieve_account(access_token)
+    email = github.retrieve_email(access_token)
     username = user['login']
 
     name = user.get('name', username)

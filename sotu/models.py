@@ -62,4 +62,3 @@ class Invitation(database.Model):
 
     def reject(self):
         self.state = self.REJECTED_STATE
-
