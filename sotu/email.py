@@ -15,6 +15,8 @@ def send_email(invitation, subject, body_text):
     message.add_to(invitation.email)
     message.set_subject(subject)
     message.set_text(body_text)
+    message.add_attachment('2016_cocoapods_sotu.ics',
+                           os.path.join(os.path.dirname(__file__), "static/event.ics"))
     status, msg = grid.send(message)
 
 
