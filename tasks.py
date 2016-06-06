@@ -61,8 +61,8 @@ def invite(username, force=False):
 @task
 def lottery(amount):
     amount = int(amount)
-    entrants = Entrant.select().order_by(peewee.fn.Random()).join(Invitation, JOIN.LEFT_OUTER).group_by(Entrant).having(fn.COUNT(Invitation.id) == 0).limit(amount)
-    print('Inviting {} entrants.'.format(len(entrants)))
+    entrants = Entrant.select().order_by(peewee.fn.Random()).join(Invitation, peewee.JOIN.LEFT_OUTER).group_by(Entrant).having(peewee.fn.COUNT(Invitation.id) == 0).limit(amount)
+    print('Inviting {} entrants.'.format(entrants.count()))
 
     for entrant in entrants:
         print(entrant.github_username)
